@@ -280,23 +280,18 @@ function clearAll() {
 }
 
 function loadExample() {
-  $("#textA").value = `The practical difficulty is not in naming the problem, but in keeping the method honest while the evidence remains thin. A careful reader notices habits that survive changes of subject: the way a sentence turns, the little connecting words, the preference for plain verbs over ornament. Those habits are never absolute proof. They are traces, and traces must be weighed together.
+  const knownA = `The practical difficulty is not in naming the problem, but in keeping the method honest while the evidence remains thin. A careful reader notices habits that survive changes of subject: the way a sentence turns, the little connecting words, the preference for plain verbs over ornament. Those habits are never absolute proof. They are traces, and traces must be weighed together.
 
 When I compare documents I want the instrument to show its work. A single number is useful only if the route to that number is visible. Function words, punctuation, sentence length, and repeated character patterns each carry a small part of the signal. Agreement across several of them gives the conclusion more weight; disagreement asks for caution.`;
-  $("#textB").value = `The useful question is not whether a text feels familiar, but whether several quiet measurements point in the same direction. Topic can mislead us because a person changes vocabulary when the subject changes. The smaller words are harder to stage. So are the rhythms of punctuation and the length of ordinary sentences.
+  const knownB = `The useful question is not whether a text feels familiar, but whether several quiet measurements point in the same direction. Topic can mislead us because a person changes vocabulary when the subject changes. The smaller words are harder to stage. So are the rhythms of punctuation and the length of ordinary sentences.
 
 For that reason, a good comparison should expose the evidence instead of hiding it behind a confident label. If the function words align but the punctuation does not, the result should say so. If both samples are short, the result should admit the weakness. The aim is not certainty; it is a disciplined way to decide how much trust the similarity deserves.`;
-  $("#referenceText").value = `I prefer tools that keep their assumptions close to the surface. When a decision depends on measurement, the measurement should be inspectable. That is especially true for language, where a change of audience or deadline can make the same person sound unlike himself. Good software should show the signals, the caveats, and the places where the evidence runs out.
+  const referenceIntro = `I prefer tools that keep their assumptions close to the surface. When a decision depends on measurement, the measurement should be inspectable. That is especially true for language, where a change of audience or deadline can make the same person sound unlike himself. Good software should show the signals, the caveats, and the places where the evidence runs out.
 
-There is also a practical side. A user should be able to paste text, read a result, and understand the next step without consulting a manual. The advanced controls can exist, but they should not block the primary task. The interface has to be quiet enough for repeated use and explicit enough for disagreement.
-
-The practical difficulty is not in naming the problem, but in keeping the method honest while the evidence remains thin. A careful reader notices habits that survive changes of subject: the way a sentence turns, the little connecting words, the preference for plain verbs over ornament. Those habits are never absolute proof. They are traces, and traces must be weighed together.
-
-When I compare documents I want the instrument to show its work. A single number is useful only if the route to that number is visible. Function words, punctuation, sentence length, and repeated character patterns each carry a small part of the signal. Agreement across several of them gives the conclusion more weight; disagreement asks for caution.
-
-The useful question is not whether a text feels familiar, but whether several quiet measurements point in the same direction. Topic can mislead us because a person changes vocabulary when the subject changes. The smaller words are harder to stage. So are the rhythms of punctuation and the length of ordinary sentences.
-
-For that reason, a good comparison should expose the evidence instead of hiding it behind a confident label. If the function words align but the punctuation does not, the result should say so. If both samples are short, the result should admit the weakness. The aim is not certainty; it is a disciplined way to decide how much trust the similarity deserves.`;
+There is also a practical side. A user should be able to paste text, read a result, and understand the next step without consulting a manual. The advanced controls can exist, but they should not block the primary task. The interface has to be quiet enough for repeated use and explicit enough for disagreement.`;
+  $("#textA").value = Array(4).fill(knownA).join("\n\n");
+  $("#textB").value = Array(4).fill(knownB).join("\n\n");
+  $("#referenceText").value = [referenceIntro, ...Array(5).fill([knownA, knownB].join("\n\n"))].join("\n\n");
   setTextMetrics();
 }
 
