@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stylometric Analysis Style Guide</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .sg-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .sg-card {
+      grid-column: span 4;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 10px 24px var(--shadow);
+    }
+    .sg-card.wide { grid-column: span 8; }
+    .sg-card.full { grid-column: 1 / -1; }
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .swatch {
+      min-height: 84px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .swatch strong,
+    .swatch span {
+      width: fit-content;
+      max-width: 100%;
+      padding: 2px 5px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.9);
+      color: var(--ink);
+      font-size: var(--font-xs);
+      overflow-wrap: anywhere;
+    }
+    .token-list {
+      columns: 3 220px;
+      padding-left: 18px;
+      line-height: 1.8;
+    }
+    @media (max-width: 900px) {
+      .sg-card,
+      .sg-card.wide { grid-column: 1 / -1; }
+      .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Interface system</p>
+      <h1>Stylometric Analysis Style Guide</h1>
+      <p class="lede">A compact guide for the public testing tool: restrained lab UI, legible evidence displays, and documented controls that match recent DanielPradilla.info projects.</p>
+    </div>
+    <nav class="nav-actions"><a href="./index.html">Open Tool</a></nav>
+  </header>
+
+  <main>
+    <section class="sg-grid">
+      <article class="sg-card wide">
+        <h2>Color Tokens</h2>
+        <div class="swatches">
+          <div class="swatch" style="background: var(--ink);"><strong>--ink</strong><span>#1c2d4a</span></div>
+          <div class="swatch" style="background: var(--muted);"><strong>--muted</strong><span>#5d6b7c</span></div>
+          <div class="swatch" style="background: var(--blue);"><strong>--blue</strong><span>#1c4d8f</span></div>
+          <div class="swatch" style="background: var(--orange);"><strong>--orange</strong><span>#e46f2b</span></div>
+          <div class="swatch" style="background: var(--green);"><strong>--green</strong><span>#2b827a</span></div>
+          <div class="swatch" style="background: var(--violet);"><strong>--violet</strong><span>#6b5aa6</span></div>
+          <div class="swatch" style="background: var(--bg);"><strong>--bg</strong><span>#f7f9fb</span></div>
+          <div class="swatch" style="background: var(--surface);"><strong>--surface</strong><span>#ffffff</span></div>
+          <div class="swatch" style="background: var(--surface-soft);"><strong>--surface-soft</strong><span>#eef3f7</span></div>
+          <div class="swatch" style="background: var(--line);"><strong>--line</strong><span>ink .14</span></div>
+          <div class="swatch" style="background: var(--danger);"><strong>--danger</strong><span>#a63737</span></div>
+          <div class="swatch" style="background: var(--danger-soft);"><strong>--danger-soft</strong><span>#fff0f0</span></div>
+        </div>
+      </article>
+
+      <article class="sg-card">
+        <h2>Style Direction</h2>
+        <p>The tool should feel like a working analysis bench: dense enough for repeated use, calm enough for interpretation, and explicit about uncertainty.</p>
+        <p class="muted">Avoid decorative hero sections. The first viewport is the tool itself.</p>
+      </article>
+
+      <article class="sg-card full">
+        <h2>Type And Controls</h2>
+        <ul class="token-list">
+          <li><code>--font-xs</code> 11px for labels and table headers.</li>
+          <li><code>--font-sm</code> 13px for dense metrics.</li>
+          <li><code>--font-md</code> 15px for default UI text.</li>
+          <li><code>--font-lg</code> 20px for panel headings.</li>
+          <li><code>--font-xl</code> 32px for page title only.</li>
+          <li><code>--radius</code> 8px for cards and controls.</li>
+        </ul>
+      </article>
+
+      <article class="sg-card wide">
+        <h2>Components</h2>
+        <div class="button-row">
+          <button class="primary-button" type="button">Analyze</button>
+          <button type="button">Secondary</button>
+          <span class="status-pill">Higher confidence</span>
+          <span class="status-pill neutral">Threshold 75%</span>
+        </div>
+        <div class="table-shell" style="margin-top: 14px;">
+          <table>
+            <thead><tr><th>Metric</th><th>Text A</th><th>Text B</th></tr></thead>
+            <tbody><tr><td>Function words</td><td>0.84</td><td>0.79</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="sg-card">
+        <h2>Evidence Display</h2>
+        <p class="muted">Every verdict needs a visible route: score, confidence, method agreement, charts, and difference tables. The AI-style feature must be described as reference mismatch, not proof.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

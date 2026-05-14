@@ -1,0 +1,21 @@
+{
+  "name": "stylometric-analysis",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/analysis-core.test.mjs",
+    "serve": "python3 -m http.server 5173"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/danielpradilla/stylometric-analysis.git"
+  },
+  "keywords": [
+    "stylometry",
+    "authorship",
+    "digital-humanities",
+    "text-analysis"
+  ],
+  "license": "MIT"
+}

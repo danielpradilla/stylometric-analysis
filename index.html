@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stylometric Analysis Tool</title>
+  <meta name="description" content="Compare two writing samples for authorship similarity and audit a candidate text against known writing by the same person." />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">DanielPradilla.info lab</p>
+      <h1>Stylometric Analysis</h1>
+      <p class="lede">Compare two text files or pasted passages, inspect the writing signals, and optionally test whether a candidate text fits a known writer's style.</p>
+    </div>
+    <nav class="nav-actions" aria-label="Project links">
+      <a href="#guide">User Guide</a>
+      <a href="./style-guide.html">Style Guide</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="workspace" aria-label="Text comparison inputs">
+      <article class="input-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Text A</h2>
+            <p id="countA" class="count">0 words</p>
+          </div>
+          <label class="file-button">
+            <input id="fileA" type="file" accept=".txt,.md,.csv,text/plain,text/markdown" />
+            Upload file
+          </label>
+        </div>
+        <textarea id="textA" spellcheck="false" placeholder="Paste the known or first writing sample here."></textarea>
+      </article>
+
+      <article class="input-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Text B</h2>
+            <p id="countB" class="count">0 words</p>
+          </div>
+          <label class="file-button accent">
+            <input id="fileB" type="file" accept=".txt,.md,.csv,text/plain,text/markdown" />
+            Upload file
+          </label>
+        </div>
+        <textarea id="textB" spellcheck="false" placeholder="Paste the disputed, second, or candidate writing sample here."></textarea>
+      </article>
+    </section>
+
+    <section class="controls-band" aria-label="Analysis controls">
+      <div class="control-cluster">
+        <label>
+          Sensitivity
+          <select id="sensitivity">
+            <option value="balanced" selected>Balanced</option>
+            <option value="strict">Strict</option>
+            <option value="lenient">Lenient</option>
+          </select>
+        </label>
+        <label>
+          Most frequent words
+          <input id="mfwCount" type="number" min="30" max="140" step="10" value="80" />
+        </label>
+        <label>
+          Character n-gram size
+          <input id="ngramSize" type="number" min="2" max="5" step="1" value="3" />
+        </label>
+        <label>
+          Reference chunk size
+          <input id="referenceChunkSize" type="number" min="250" max="1200" step="50" value="550" />
+        </label>
+      </div>
+      <div class="toggle-row" aria-label="Pre-processing options">
+        <label><input id="ignoreQuotes" type="checkbox" /> Ignore quoted blocks</label>
+        <label><input id="caseSensitive" type="checkbox" /> Case sensitive</label>
+      </div>
+      <div class="button-row">
+        <button id="analyze" class="primary-button" type="button">Analyze</button>
+        <button id="example" type="button">Load example</button>
+        <button id="clear" type="button">Clear</button>
+      </div>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+
+    <section class="reference-band" aria-label="Reference writing for AI or style mismatch check">
+      <div>
+        <h2>Optional Reference Writing</h2>
+        <p class="muted">Paste or upload known writing by the person. The tool compares Text B against that reference to flag style mismatch. It is not a standalone AI detector.</p>
+      </div>
+      <div class="reference-input">
+        <div class="panel-heading compact">
+          <p id="countReference" class="count">0 words</p>
+          <label class="file-button">
+            <input id="referenceFile" type="file" accept=".txt,.md,.csv,text/plain,text/markdown" />
+            Upload reference
+          </label>
+        </div>
+        <textarea id="referenceText" spellcheck="false" placeholder="Paste known writing by this person here. Use several passages for best results."></textarea>
+      </div>
+    </section>
+
+    <section id="output" class="results" hidden aria-live="polite">
+      <div class="result-summary">
+        <div>
+          <p class="eyebrow">Similarity score</p>
+          <div id="scoreValue" class="score">0%</div>
+        </div>
+        <div class="result-copy">
+          <h2 id="verdict">Result</h2>
+          <p id="summary"></p>
+          <div class="status-row">
+            <span id="confidence" class="status-pill">confidence</span>
+            <span id="threshold" class="status-pill neutral">threshold</span>
+          </div>
+          <div class="meter" aria-hidden="true"><span id="scoreBar"></span></div>
+        </div>
+        <button id="exportJson" type="button">Export JSON</button>
+      </div>
+
+      <div class="results-grid">
+        <article class="viz-panel">
+          <h3>Method Agreement</h3>
+          <canvas id="methodRadar" height="260"></canvas>
+          <ul id="methodList" class="method-list"></ul>
+        </article>
+        <article class="viz-panel">
+          <h3>Word-Length Curve</h3>
+          <canvas id="wordLengthChart" height="260"></canvas>
+          <p class="legend"><span class="blue"></span>Text A <span class="orange"></span>Text B</p>
+        </article>
+        <article class="viz-panel">
+          <h3>Sentence Rhythm</h3>
+          <canvas id="sentenceChart" height="260"></canvas>
+          <p class="legend"><span class="blue"></span>Text A <span class="orange"></span>Text B</p>
+        </article>
+      </div>
+
+      <div id="referencePanel" class="reference-result" hidden></div>
+
+      <section class="details-grid" aria-label="Detailed diagnostics">
+        <article>
+          <h3>Text Metrics</h3>
+          <div class="table-shell">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sample</th>
+                  <th>Words</th>
+                  <th>Sentences</th>
+                  <th>Avg word</th>
+                  <th>Avg sentence</th>
+                  <th>TTR</th>
+                  <th>Hapax</th>
+                </tr>
+              </thead>
+              <tbody id="metricsBody"></tbody>
+            </table>
+          </div>
+        </article>
+        <article>
+          <h3>Function-Word Differences</h3>
+          <div class="table-shell">
+            <table>
+              <thead><tr><th>Word</th><th>A / 1k</th><th>B / 1k</th><th>Gap</th></tr></thead>
+              <tbody id="functionDiffs"></tbody>
+            </table>
+          </div>
+        </article>
+        <article>
+          <h3>Punctuation Differences</h3>
+          <div class="table-shell">
+            <table>
+              <thead><tr><th>Mark</th><th>A / 1k chars</th><th>B / 1k chars</th><th>Gap</th></tr></thead>
+              <tbody id="punctuationDiffs"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </section>
+
+    <section id="guide" class="guide">
+      <h2>User Guide</h2>
+      <div class="guide-grid">
+        <article>
+          <h3>1. Compare two samples</h3>
+          <p>Paste text into Text A and Text B, or upload plain text files. Use at least 500 words per sample when possible. The tool can run on shorter passages, but confidence drops quickly.</p>
+        </article>
+        <article>
+          <h3>2. Read the evidence</h3>
+          <p>The score combines function words, character n-grams, word-length curves, punctuation, sentence rhythm, and lexical richness. Review the charts and differences before trusting the verdict.</p>
+        </article>
+        <article>
+          <h3>3. Check AI-style mismatch</h3>
+          <p>Add known writing in the reference box. The audit compares Text B against the person's normal variation. It can flag an atypical passage, but it cannot prove that a passage was AI-written.</p>
+        </article>
+        <article>
+          <h3>4. Tune the run</h3>
+          <p>Strict sensitivity raises the same-author threshold. More frequent words and 3-gram character patterns usually work well for English prose. Ignore quoted blocks when emails or essays contain long citations.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
