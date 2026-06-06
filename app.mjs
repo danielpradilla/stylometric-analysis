@@ -67,7 +67,7 @@ function drawBarChart(canvas, labels, seriesA, seriesB, options = {}) {
   const plotHeight = height - padding.top - padding.bottom;
   const maxValue = Math.max(...seriesA, ...seriesB, 1);
 
-  ctx.strokeStyle = "rgba(28, 45, 74, 0.14)";
+  ctx.strokeStyle = "#d1d1d1";
   ctx.lineWidth = 1;
   for (let tick = 0; tick <= 4; tick += 1) {
     const y = padding.top + plotHeight - (plotHeight * tick) / 4;
@@ -83,13 +83,13 @@ function drawBarChart(canvas, labels, seriesA, seriesB, options = {}) {
     const x = padding.left + groupWidth * index + groupWidth * 0.18;
     const aHeight = (seriesA[index] / maxValue) * plotHeight;
     const bHeight = (seriesB[index] / maxValue) * plotHeight;
-    ctx.fillStyle = "#1c4d8f";
+    ctx.fillStyle = "#2f5f7f";
     ctx.fillRect(x, padding.top + plotHeight - aHeight, barWidth, aHeight);
-    ctx.fillStyle = "#e46f2b";
+    ctx.fillStyle = "#c2413f";
     ctx.fillRect(x + barWidth + 2, padding.top + plotHeight - bHeight, barWidth, bHeight);
 
     if (index % (options.labelEvery || 1) === 0) {
-      ctx.fillStyle = "#5d6b7c";
+      ctx.fillStyle = "#39414d";
       ctx.font = "10px system-ui, sans-serif";
       ctx.textAlign = "center";
       ctx.fillText(label, x + barWidth, height - 10);
@@ -119,8 +119,8 @@ function drawRadar(canvas, methods) {
   const centerY = height / 2 + 4;
   const radius = Math.min(width, height) * 0.34;
 
-  ctx.strokeStyle = "rgba(28, 45, 74, 0.16)";
-  ctx.fillStyle = "#5d6b7c";
+  ctx.strokeStyle = "#d1d1d1";
+  ctx.fillStyle = "#39414d";
   ctx.font = "10px system-ui, sans-serif";
   labels.forEach(([label], index) => {
     const angle = (Math.PI * 2 * index) / labels.length - Math.PI / 2;
@@ -143,8 +143,8 @@ function drawRadar(canvas, methods) {
     else ctx.lineTo(x, y);
   });
   ctx.closePath();
-  ctx.fillStyle = "rgba(43, 130, 122, 0.22)";
-  ctx.strokeStyle = "#2b827a";
+  ctx.fillStyle = "rgba(209, 223, 228, 0.72)";
+  ctx.strokeStyle = "#2f5f7f";
   ctx.lineWidth = 2;
   ctx.fill();
   ctx.stroke();

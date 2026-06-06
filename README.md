@@ -12,7 +12,7 @@ The app is designed for static hosting on `danielpradilla.info`. Uploaded files 
 - Method controls for sensitivity, most frequent words, character n-grams, quoted text, and reference chunking.
 - Charts for method agreement, word-length curves, and sentence rhythm.
 - Difference tables for function words and punctuation.
-- Built-in user guide and a project style guide.
+- Built-in user guide and a project style guide aligned with `/Users/dpradilla/dev/danielpradilla-app-style/GUIDE.md`.
 
 ## Methods
 
