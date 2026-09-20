@@ -17,18 +17,31 @@
   <script type="module" src="./app.mjs?v=20260913" data-cfasync="false"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">DanielPradilla.info lab</p>
-      <h1>Stylometric Analysis</h1>
-      <p class="lede">Compare two text files or pasted passages, inspect the writing signals, and optionally test whether a candidate text fits a known writer's style.</p>
+  <header>
+    <div class="dp-navbar">
+      <a class="dp-navbar-brand" href="/projects/">Daniel Pradilla</a>
+      <nav class="dp-navbar-links" aria-label="Site navigation">
+        <a href="#guide">User Guide</a>
+        <a href="/blog/">Blog</a>
+        <a href="https://github.com/danielpradilla/stylometric-analysis">GitHub</a>
+      </nav>
+      <details class="dp-navbar-menu">
+        <summary aria-label="Menu">&#9776;</summary>
+        <nav aria-label="Site navigation (mobile)">
+          <a href="#guide">User Guide</a>
+          <a href="/blog/">Blog</a>
+          <a href="https://github.com/danielpradilla/stylometric-analysis">GitHub</a>
+        </nav>
+      </details>
     </div>
-    <nav class="nav-actions" aria-label="Project links">
-      <a href="#guide">User Guide</a>
-    </nav>
+    <div class="dp-project-header">
+      <h1>Stylometric Analysis</h1>
+    </div>
   </header>
 
   <main>
+    <p class="lede">Compare two text files or pasted passages, inspect the writing signals, and optionally test whether a candidate text fits a known writer's style.</p>
+
     <section class="workspace" aria-label="Text comparison inputs">
       <article class="input-panel">
         <div class="panel-heading">
@@ -213,5 +226,13 @@
       </div>
     </section>
   </main>
+  <footer class="dp-footer">
+    <span>&copy; 2026 Daniel Pradilla</span>
+    <nav aria-label="Footer navigation">
+      <a href="/projects/">Projects</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/danielpradilla/stylometric-analysis">GitHub</a>
+    </nav>
+  </footer>
 </body>
 </html>
